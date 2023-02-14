@@ -1,0 +1,47 @@
+{% extends 'spec_cat_base.html' %}
+  {% block title %}
+    {{ subcat_name }}
+  {% endblock %}
+  {% block cap_bg %}
+    background-image: linear-gradient(green, #BBFF00);
+  {% endblock %}
+  {% block textstyle %}
+    input[type=text], input[type=textarea] {
+      width: 90%;
+      margin-top: -15px;
+      font-size: 20px;
+      font-family: sans-serif;
+      box-sizing: border-box;
+      border: none;
+      outline: none;
+      background-color: inherit;
+      background: transparent;
+      border-bottom: 2px solid green;
+      color: black;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
+      box-shadow: none;
+    }
+    ::placeholder {
+      color: black;
+      opacity: 0.5;
+    }
+
+  {% endblock %}
+  {% block cap %}
+    <span style="font-size:27px; cursor:pointer; padding-right: 10px;" onclick="window.location.href='{% url 'spec_cat' cat_id %}'"> <span class="glyphicon glyphicon-chevron-left"></span> </span>
+    {{ cat_name }} / {{ subcat_name }}
+  {% endblock %}
+  {% block search %}
+    <span style="float: right;">
+      <form class="" action="" method="get">
+        {% csrf_token %}
+        <input type="text" placeholder="Search..." name="search"/>
+      </form>
+    </span>
+  {% endblock %}
+  {% block list %}
+    {% for product in products %}
+      <li><a href="{% url 'product_desc' product.product_id %}">{{ product.product_name }}</a></li>
+    {% endfor %}
+  {% endblock %}

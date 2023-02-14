@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+
+  <title>Divisions</title>
+
+  <style>
+
+    .sidenav {
+      height: 100%;
+      width: 13%;
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      padding-top: 20px;
+    }
+
+    /*.sidenav a {
+      padding: 6px 8px 6px 16px;
+      text-decoration: none;
+      font-size: 22px;
+      color: #818181;
+      display: block;
+    }*/
+
+    .sidenav button {
+      padding: 6px 8px 6px 16px;
+      text-decoration: none;
+      font-size: 22px;
+      color: #818181;
+      display: block;
+      background: none;
+      border: none;
+      outline: none;
+      transition: 0.1s;
+    }
+
+    .sidenav button:hover {
+      color: #f1f1f1;
+    }
+
+    .sidenav span {
+      padding: 6px 8px 12px 10px;
+      text-decoration: none;
+      font-size: 35px;
+      -font-family: serif;
+      color: #818181;
+      display: block;
+    }
+
+    /*.sidenav a:hover {
+      color: #f1f1f1;
+    }*/
+
+    .sidenav .sidenav_active {
+       color: #f1f1f1;
+       background: none;
+       border: none;
+       outline: none;
+    }
+
+    .menuSidenav {
+      height: 100%;
+      width: 0;
+      position: fixed;
+      -z-index: 1;
+      top: 0;
+      right: 0;
+      background-color: #111;
+      overflow-x: hidden;
+      transition: 0.5s;
+      padding-top: 40px;
+    }
+
+    .menuSidenav a {
+      padding: 10px 8px 8px 20px;
+      text-decoration: none;
+      font-size: 25px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+
+    .menuSidenav a:hover {
+      color: #f1f1f1;
+    }
+
+    .menuSidenav .closebtn {
+      position: absolute;
+      top: 5px;
+      right: 2px;
+      font-size: 36px;
+      margin-left: 50px;
+    }
+
+    #main {
+      transition: margin-right .5s;
+    }
+
+    ::-moz-selection {
+      color: white;
+      background-color: black;
+    }
+
+    ::selection {
+      color: white;
+      background-color: black;
+    }
+
+    @media screen and (max-height: 450px) {
+      .sidenav {padding-top: 15px;}
+      .sidenav a {font-size: 18px;}
+    }
+
+  </style>
+</head>
+
+<body onload="sidenav_toggle();">
+  <div class="sidenav">
+    <span>Divisions</span>
+    {% for div in divs %}
+      <button onclick="window.location.href='{% url 'spec_div' div.div_id %}'">{{ div.div_name }}</button>
+    {% endfor %}
+  </div>
+  <div id="main" style="margin-left: 13%; ">
+    <span style="font-size:30px; cursor:pointer; margin-left: 96.75%;" onclick="openNav()">&#9776;</span>
+    <h2 align="center" style="opacity: 0.4; margin-top: 220px; color: white; text-shadow: 2px 2px 4px #000; font-size: 60px;">
+      Select a division to see available locations
+    </h2>
+  </div>
+
+  <div id="menuSidenavID" class="menuSidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'categories' %}">Categories</a>
+    <a href="{% url 'ad' %}">Add</a>
+    <a href="{% url 'job_types' %}">Jobs</a>
+    {% if user_id == 0%}
+      <a href="{% url 'login' %}">Login</a>
+    {% else %}
+      <a href="{% url 'user_products' %}">My products</a>
+      <a href="{% url 'logout' %}">Sign out</a>
+    {% endif %}
+  </div>
+
+  <script>
+
+  var deftxt = document.getElementById("main").innerHTML;
+
+  function sidenav_toggle() {
+    var header = document.getElementsByClassName("sidenav");
+    //var anchs = header[0].getElementsByTagName("A");
+    var btns = header[0].getElementsByTagName("Button");
+
+    //console.log(anchs.length);
+
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener("click", function() {
+      var current = document.getElementsByClassName("sidenav_active");
+      current[0].className = current[0].className.replace("sidenav_active", "");
+      this.className += "sidenav_active";
+      });
+    }
+  }
+
+  function openNav() {
+    menuSidenav = document.getElementById("menuSidenavID");
+    main = document.getElementById("main");
+    if(menuSidenav.style.width != "150px"){
+      menuSidenav.style.width = "150px";
+    }
+    else{
+      menuSidenav.style.width = "0px";
+    }
+    if(main.style.marginRight != "150px"){
+      main.style.marginRight= "150px";
+    }
+    else{
+      main.style.marginRight= "0px";
+    }
+  }
+
+  function closeNav() {
+    document.getElementById("menuSidenavID").style.width = "0";
+    document.getElementById("main").style.marginRight= "0";
+  }
+
+  </script>
+
+
+</body>
+</html>

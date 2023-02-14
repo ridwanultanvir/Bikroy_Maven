@@ -1,0 +1,19 @@
+{% extends 'spec_cat_base.html' %}
+  {% block title %}
+    Applicant
+  {% endblock %}
+  {% block cap_bg %}
+    background-image: linear-gradient(blue, #10226f);
+  {% endblock %}
+  {% block cap %}
+    Applicant Contact Information
+  {% endblock %}
+  {% block list %}
+    <li style="padding-bottom: 15px;"><b style="font-family: cursive;">First Name:</b> {{ f_name }} </li>
+    <li style="padding-bottom: 15px;"><b style="font-family: cursive;">Last Name:</b> {{ l_name }} </li>
+    <li style="padding-bottom: 15px;"><b style="font-family: cursive;">Street:</b> {{ street }} </li>
+    <li style="padding-bottom: 15px;"><b style="font-family: cursive;">Zip:</b> {{ zip }} </li>
+    <li style="padding-bottom: 15px;"><b style="font-family: cursive;">House:</b> {{ house }} </li>
+    <li style="padding-bottom: 15px;"><b style="font-family: cursive;">Area:</b> {{ area }}, {{ dist_name }} </li>
+    <li style="padding-bottom: 15px;"><b style="font-family: cursive;">Phone:</b> {{ phone }} </li><br>
+  {% endblock %}

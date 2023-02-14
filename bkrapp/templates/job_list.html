@@ -1,0 +1,16 @@
+{% extends 'spec_cat_base.html' %}
+    {% block title %}
+        Job list
+    {% endblock %}
+    {% block cap_bg %}
+    background-image: linear-gradient(#006677, #005556);
+    {% endblock %}
+    {% block cap %}
+    List of jobs  <br>
+    {% endblock %}
+    {% block list %}
+        {% for job in job_list %}
+        <li><a href="{% url 'job_desc' job.job_id %}">{{ job.job_title }}
+        <br><span style="font-size: small; color: grey;">Offered by {{ job.comp_name }}</span></a></li>
+        {% endfor %}
+    {% endblock %}

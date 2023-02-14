@@ -1,0 +1,79 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Company Registration</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/float-label-css/v1.0.2/dist/float-label.min.css"/> -->
+    <link rel="stylesheet" href="{% static 'bkrapp/adStyles.css' %}"/>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+    <style>
+      *::selection{
+        background-color: green;
+        color: white;
+      }
+      input[type=text], input[type=textarea] {
+        width: 100%;
+        -padding: 2px 20px;
+        margin: 10px 10px 10px 10px;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        background-color: inherit;
+        border-bottom: 2px solid green;
+      }
+      div.card{
+        box-shadow: 0 4px 8px 0 rgba(0, 255, 0, 0.5), 0 6px 20px 0 rgba(0, 255, 0, 0.29);
+      }
+      a{
+        color: green;
+      }
+      a:hover{
+        color: green;
+      }
+    </style>
+
+  </head>
+  <body>
+    <a href="{% url 'index' %}" style="margin-left: 7px; font-size: 20px;">Back to home</a>
+    <h1 align="center" style="margin-top: 10px; color: green;">Register Your Company</h1><br>
+    <div class="container col-md-7 card" style="background-color: #f9f9f9; margin-top: -10px; font-size: 20px;">
+      <form class="" action="{% url 'add_company' %}" method="post">
+        {% csrf_token %}
+        <div class="has-float-label">
+          <input id="comp_name" type="text" placeholder="Name of your company" name="comp_name" required/>
+          <label for="comp_name">Company Name</label>
+        </div><br>
+        <div class="has-float-label">
+          <input id="area" type="text" placeholder="Specify where the company is located" name="area" required/>
+          <label for="area">Area</label>
+        </div><br>
+        <label for="divname">Select Division<span style="color: red;"> *</span> : </label>
+        <select class="form-control" name="divid" id="divname" onchange="distsChange(value);">
+          <option value="">------------------</option>
+          {% for div in divs %}
+            <option value="{{ div.div_id }}" >{{ div.div_name }}</option>
+          {% endfor %}
+        </select><br>
+        <span id="distname"></span>
+          <button class="btn-success btn-lg btn-block" type="submit">Register</button><br>
+        <!-- <input type="submit" value="Add"> -->
+      </form>
+    </div>
+    <script type="text/javascript">
+      function distsChange(div_id) {
+        console.log(div_id);
+        var t = '<label for="distname">Select District<span id="req"> *</span> : </label>'
+        + '<select class="form-control" name="distid" id="distname">';
+        {% for dist in dists %}
+          if({{ dist.div_id }} == div_id)
+            t += '<option value="{{ dist.dist_id }}">{{ dist.dist_name }}</option>';
+        {% endfor %}
+        t += '</select><br>';
+        document.getElementById("distname").innerHTML = t;
+      }
+    </script>
+  </body>
+</html>

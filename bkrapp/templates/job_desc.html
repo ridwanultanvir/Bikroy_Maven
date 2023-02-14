@@ -1,0 +1,138 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{ job_title }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style media="screen">
+
+  .cap {
+    font-size: 40px;
+    background-color: black;
+    width: 100%;
+    /*text-align: center;*/
+    padding-left: 20px;
+    color: #ddd;
+    font-family: "Times New Roman", Helvetica, sans-serif;
+    background-image: linear-gradient(blue, #00BFFF);
+  }
+
+  /* .item {
+    padding: 150px 20px;
+    background-color: lightblue;
+  } */
+
+  .description ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .description ul li {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+  }
+
+  .description ul li strong {
+    font-family: cursive;
+  }
+
+  .menuSidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    -z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
+  }
+
+  .menuSidenav a {
+    padding: 10px 8px 8px 20px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+
+  .menuSidenav a:hover {
+    color: #f1f1f1;
+  }
+
+  .menuSidenav .closebtn {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  img {
+    font-family: 'Arial';
+    font-size: large;
+  }
+
+  </style>
+
+</head>
+<body style="background-color: rgb(236, 236, 236);">
+
+<span style="font-size: 30px; cursor: pointer; margin-left: 96.75%;" onclick="openNav()">&#9776;</span>
+
+<div class="container" style="background-color: white; width: 70%; height: 100%; margin-top: 60px;">
+  <div class="description" style="padding-top: 100px; padding-bottom: 97px; font-family: cursive;">
+    <ul>
+      <li><strong>COMPANY: </strong>{{ company_name }}, {{ area_name }} ({{ dist_name }}) </li>
+      <li><strong>Job title: </strong>{{ job_title }} </li>
+      <li><strong>Description: </strong>{{ description }}</li>
+      <li><strong>Salary: </strong>{{ salary }}</li>
+      <li><strong>Requirements: </strong>{{ requirements }}</li>
+      {% if user_id == 0 %}
+        <li><a href="#" class="btn btn-warning" disabled> Apply for the job</a></li>
+      {% elif user_id != manager_id %}
+        <li><a href="{% url 'apply_job' job_id %}" class="btn btn-warning"> Apply for the job</a></li>
+      {% else %}
+        <li><a href="{% url 'applicants_list' job_id %}" class="btn btn-primary"> Applicants List</a></li>
+      {% endif %}
+    </ul>
+
+  </div>
+  </div>
+</div>
+<div id="menuSidenavID" class="menuSidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a><br>
+  <a href="{% url 'index' %}">Home</a>
+  <a href="{% url 'categories' %}">Categories</a>
+  <a href="{% url 'ad' %}">Add</a>
+  <a href="{% url 'job_types' %}">Jobs</a>
+  {% if user_id == 0%}
+    <a href="{% url 'login' %}">Login</a>
+  {% else %}
+    <a href="{% url 'user_products' %}">My products</a>
+    <a href="{% url 'logout' %}">Sign out</a>
+  {% endif %}
+</div>
+
+<script type="text/javascript">
+  var px = "170px";
+  function openNav() {
+    document.getElementById("menuSidenavID").style.width = px;
+  }
+
+  function closeNav() {
+    document.getElementById("menuSidenavID").style.width = "0";
+  }
+
+</script>
+
+</body>
+</html>

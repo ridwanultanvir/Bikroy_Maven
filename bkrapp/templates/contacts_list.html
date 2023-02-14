@@ -1,0 +1,16 @@
+{% extends 'spec_cat_base.html' %}
+  {% block title %}
+    Contacts
+  {% endblock %}
+  {% block cap_bg %}
+    background-image: linear-gradient(#149777, #10846f);
+  {% endblock %}
+  {% block cap %}
+    <span style="font-size:27px; cursor:pointer; padding-right: 10px;" onclick="window.location.href='{% url 'product_desc' product_id %}'"> <span class="glyphicon glyphicon-chevron-left"></span> </span>
+    List of contacts
+  {% endblock %}
+  {% block list %}
+    {% for s in senders %}
+        <li><a href="{% url 'chat_with_contact' product_id s.id %}">{{ s.name }}</a></li>
+    {% endfor %}
+  {% endblock %}

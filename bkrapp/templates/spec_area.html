@@ -1,0 +1,44 @@
+{% extends 'spec_cat_base.html' %}
+  {% block title %}
+    {{ area_name }}
+  {% endblock %}
+  {% block cap_bg %}
+    background-image: linear-gradient(black, #444);
+  {% endblock %}
+  {% block textstyle %}
+    input[type=text], input[type=textarea] {
+      width: 90%;
+      margin-top: -15px;
+      font-size: 20px;
+      font-family: sans-serif;
+      box-sizing: border-box;
+      border: none;
+      outline: none;
+      background-color: inherit;
+      border-bottom: 2px solid lightgrey;
+      color: white;
+      box-shadow: none;
+      opacity: 0.9;
+    }
+    ::placeholder {
+      color: lightgrey;
+      opacity: 0.7;
+    }
+  {% endblock %}
+  {% block cap %}
+    <span style="font-size:27px; cursor:pointer; padding-right: 10px;" onclick="window.location.href='{% url 'spec_div' div_id %}'"> <span class="glyphicon glyphicon-chevron-left"></span> </span>
+    {{ area_name }} / Available Products
+  {% endblock %}
+  {% block search %}
+    <span style="float: right;">
+      <form class="" action="" method="get">
+        {% csrf_token %}
+        <input type="text" placeholder="Search..." name="search"/>
+      </form>
+    </span>
+  {% endblock %}
+  {% block list %}
+    {% for product in products %}
+    <li><a href="{% url 'product_desc' product.product_id %}">{{ product.product_name }}</a></li>
+    {% endfor %}
+  {% endblock %}

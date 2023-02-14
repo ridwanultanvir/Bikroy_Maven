@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Add a product</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://cdn.rawgit.com/tonystar/float-label-css/v1.0.2/dist/float-label.min.css"/> -->
+    <link rel="stylesheet" href="{% static 'bkrapp/adStyles.css' %}"/>
+    <!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script> -->
+    <style>
+      input[type=text], input[type=textarea] {
+        width: 100%;
+        -padding: 2px 20px;
+        margin: 10px 10px 10px 10px;
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        background-color: inherit;
+        border-bottom: 2px solid red;
+      }
+      div.card{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+      }
+    </style>
+
+  </head>
+  <body>
+      {% if user_id == 0 %}
+      <div class="container col-md-4 " style="background-color: #fff; margin-top: 250px; font-size: 20px; text-align: center;">
+        <h4>You must log in first</h4> <br>
+        <a href="{% url 'login' %}">Login</a>
+      </div>
+      {% else %}
+      <div class="container col-md-7" style="background-color: #f9f9f9; margin-top: 5px; font-size: 20px;">
+        <h1>Add your product</h1>
+        <form class="" action="{% url 'ad_product' %}" method="post">
+          {% csrf_token %}
+          <!-- <div class="form-group">
+            Category<input !class="form-control" type="text" name="category" placeholder="Category Name" required>
+            Specifications(optional)<input !class="form-control" type="text" name="specifications" placeholder="Specify the category">
+          </div> -->
+          <div class="has-float-label">
+            <input id="product" type="text" placeholder="Product Name" name="product" required/>
+            <label for="product">Name</label>
+          </div><br>
+          <div class="has-float-label">
+            <input id="price" type="text" placeholder="Price (in taka)" name="price" required/>
+            <label for="price">Price</label>
+          </div><br>
+          <div class="has-float-label">
+            <input id="stock" type="text" placeholder="Specify how many of this product you want to add" name="stock"/>
+            <label for="stock">Stock (optional)</label>
+          </div><br>
+          <div class="has-float-label">
+            <input id="desc" type="textarea" placeholder="Provide a short description of your product" name="desc"/>
+            <label for="desc">Description (optional)</label>
+          </div><br>
+          <div class="has-float-label">
+            <input id="subcategory" type="text" placeholder="Specify under which subcategory it goes" name="subcategory" required/>
+            <label for="subcategory">Sub-category</label>
+          </div><br>
+          <div class="has-float-label">
+            <input id="category" type="text" placeholder="Specify its category" name="category" required/>
+            <label for="category">Category</label>
+          </div><br>
+          <div class="has-float-label">
+            <input id="imgpath" type="text" placeholder="Simply add the image path" name="imgpath"/>
+            <label for="imgpath">Image (optional)</label>
+          </div><br>
+          <!-- <div class="has-float-label">
+            <input id="area" type="text" placeholder="Specify where your product would be available" name="area" required/>
+            <label for="area">Area</label>
+          </div><br> -->
+          <!-- <div class="">
+            <label for="imgfile">Image: </label>
+            <input id="imgfile" type="file" name="imgfile" value="">
+          </div><br><br> -->
+          <input type="submit" value="Add">
+        </form>
+      </div>
+    {% endif %}
+
+  </body>
+</html>

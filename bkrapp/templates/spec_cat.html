@@ -1,0 +1,16 @@
+{% extends 'spec_cat_base.html' %}
+  {% block title %}
+    {{ cat_name }}
+  {% endblock %}
+  {% block cap_bg %}
+    background-image: linear-gradient(green, #BBFF00);
+  {% endblock %}
+  {% block cap %}
+    <span style="font-size:27px; cursor:pointer; padding-right: 10px;" onclick="window.location.href='{% url 'categories' %}'"> <span class="glyphicon glyphicon-chevron-left"></span> </span>
+    {{ cat_name }}
+  {% endblock %}
+  {% block list %}
+    {% for subcat in subcats %}
+      <li><a href="{% url 'subcat' cat_id subcat.subcat_id %}">{{ subcat.subcat_name }}</a></li>
+    {% endfor %}
+  {% endblock %}

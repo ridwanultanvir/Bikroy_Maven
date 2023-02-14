@@ -1,0 +1,15 @@
+{% extends 'spec_cat_base.html' %}
+  {% block title %}
+    User JOBS
+  {% endblock %}
+  {% block cap_bg %}
+    background-image: linear-gradient(#149777, #10846f);
+  {% endblock %}
+  {% block cap %}    
+    {{company_name}} <br>
+  {% endblock %}
+  {% block list %}
+    {% for job in jobs %}
+    <li><a href="{% url 'job_desc' job.job_id %}">{{ job.job_title }}</a></li>
+    {% endfor %}
+  {% endblock %}

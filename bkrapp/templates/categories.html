@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Categories</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style media="screen">
+
+  .cap {
+    font-size: 40px;
+    /* background-color: black; */
+    width: 100%;
+    /* text-align: center; */
+    padding-left: 20px;
+    color: #ddd;
+    font-family: "Times New Roman", Helvetica, sans-serif;
+    background-image: linear-gradient(green, #00FF00);
+  }
+
+  .sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 50px;
+  }
+
+  .sidenav a {
+    padding: 8px 8px 8px 10px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+
+  .sidenav a:hover {
+    color: #f1f1f1;
+  }
+
+  .sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  .lp {
+    padding-left: 70px;
+  }
+
+  .col-md-4 a {
+    background-color: white;
+    color: black;
+    text-align: center;
+    /*border: 2px solid #4CAF50;*/
+    padding: 60px 50px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 25px;
+    margin-left: 20px;
+    font-family: 'Eras Demi ITC';
+  }
+
+  .col-md-4 a:hover {
+    color: #00AA00;
+  }
+
+  /*a:hover {
+    background-color: green;
+  }*/
+
+  </style>
+
+</head>
+<body>
+
+<div id="menuSidenavID" class="sidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+  <a href="{% url 'index' %}">Home</a>
+  <a href="{% url 'divs' %}">Divisions</a>
+  <a href="{% url 'ad' %}">Add</a>
+  <a href="{% url 'job_types' %}">Jobs</a>
+  {% if user_id == 0%}
+    <a href="{% url 'login' %}">Login</a>
+  {% else %}
+    <a href="{% url 'user_products' %}">My products</a>
+    <a href="{% url 'logout' %}">Sign out</a>
+  {% endif %}
+</div>
+
+<div class="cap">
+  <span style="font-size:30px; cursor:pointer; padding-right: 10px;" onclick="openNav()">&#9776;</span>
+  Categories <br>
+</div>
+
+<div class="container" id="listOfCategories" style="margin-top: 50px;"></div>
+
+<script type="text/javascript">
+
+  function openNav() {
+    document.getElementById("menuSidenavID").style.width = "150px";
+  }
+
+  function closeNav() {
+    document.getElementById("menuSidenavID").style.width = "0";
+  }
+
+  function listCategories() {
+    var t = "", i = 0;
+    {% for category in categories %}
+      i = {{ forloop.counter }};
+      if(i%3 == 1){
+        t += '<div class="row" style="padding-top: 25px;">';
+      }
+      t += `<div class="col-md-4 lp"><a href={% url 'spec_cat' category.cat_id %} `;
+      t += 'data-toggle="tooltip" data-placement="bottom" title="{{ category.specifications }}">{{ category.cat_name }}</a></div>';
+      if(i%3 == 0)
+        t += '</div>';
+    {% endfor %}
+    if(i%3 != 0) t += '</div>';
+    document.getElementById("listOfCategories").innerHTML = t;
+  }
+
+  $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip();
+    listCategories();
+  });
+
+</script>
+
+</body>
+</html>

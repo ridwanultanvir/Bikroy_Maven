@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{{ comp_name }}</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+
+  <style media="screen">
+
+  .cap {
+    font-size: 40px;
+    /* background-color: black; */
+    width: 100%;
+    /* text-align: center; */
+    padding-left: 20px;
+    color: #ddd;
+    font-family: "Times New Roman", Helvetica, sans-serif;
+    background-image: linear-gradient(green, #00FF55);
+  }
+
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  ul li {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+    font-size: 20px;
+  }
+
+  ul li a {
+    color: green;
+    text-decoration: none;
+  }
+
+  ul li a:hover {
+    color: green;
+  }
+
+  .menuSidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    -z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
+  }
+
+  .menuSidenav a {
+    padding: 10px 8px 8px 20px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+
+  .menuSidenav a:hover {
+    color: #f1f1f1;
+  }
+
+  .menuSidenav .closebtn {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  </style>
+
+</head>
+<body>
+  <div class="cap">
+    <span style="font-size:27px; cursor:pointer; padding-right: 10px;" onclick="window.location.href='{% url 'index' %}'"> <span class="glyphicon glyphicon-chevron-left"></span> </span>
+    {{ comp_name }}
+  </div>
+  <span style="font-size: 30px; cursor: pointer; margin-left: 96.75%;" onclick="openNav()">&#9776;</span>
+  <div class="container" style="margin-top: 5px;">
+    <ul>
+      {% for job in jobs %} <li><a href="{% url 'job_desc' job.job_id %}">{{ job.job_title }}</a></li> {% endfor %}
+    </ul>
+    <div class="container" id="addjob"></div>
+    <div class="container">
+      <a href="javascript:void(0)" class="btn btn-success" onclick="addjob()"><span class="glyphicon glyphicon-plus"></span> <span style="font-size: 18px;"> Add job</span></a>
+    </div>
+  </div>
+
+  <div id="menuSidenavID" class="menuSidenav">
+    <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a><br>
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'categories' %}">Categories</a>
+    <a href="{% url 'ad' %}">Add</a>
+    <a href="{% url 'job_types' %}">Jobs</a>
+    {% if user_id == 0 %}
+      <a href="{% url 'login' %}">Login</a>
+    {% else %}
+      <a href="{% url 'user_products' %}">My products</a>
+      <a href="{% url 'logout' %}">Sign out</a>
+    {% endif %}
+  </div>
+
+  <script type="text/javascript">
+    var px = "170px";
+    function openNav() {
+      document.getElementById("menuSidenavID").style.width = px;
+    }
+    function closeNav() {
+      document.getElementById("menuSidenavID").style.width = "0";
+    }
+    function addjob() {
+      var t = `<form class="" action="{% url 'add_job' comp_id %}" method="post"> `;
+      t += `{% csrf_token %} `;
+      t += `<div class="form-group"> `;
+      t += `<input class="form-control" type="text" name="job_title" value="" placeholder="Job title" required><br> `;
+      t += `<input class="form-control" type="text" name="salary" value="" placeholder="Salary" required><br> `;
+      t += `<input class="form-control" type="text" name="desc" value="" placeholder="Description (Optional)"><br> `;
+      t += `<input class="form-control" type="text" name="req" value="" placeholder="Requirements (Optional)"><br> `;
+      t += `<input class="form-control" type="text" name="job_type" value="" placeholder="Job type" required><br> `;
+      t += `<button class="btn btn-success btn-md type="submit" name="signup">Save</button><hr>`;
+      t += `</div> </form>`;
+      document.getElementById("addjob").innerHTML = t;
+    }
+  </script>
+
+</body>
+</html>

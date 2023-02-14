@@ -1,0 +1,15 @@
+{% extends 'spec_cat_base.html' %}
+  {% block title %}
+    Applicants List
+  {% endblock %}
+  {% block cap_bg %}
+    background-image: linear-gradient(#149777, #10846f);
+  {% endblock %}
+  {% block cap %} 
+    Job Applicants </br> 
+  {% endblock %}
+  {% block list %}
+    {% for applicant in applicants %}
+      <li><a href="{% url 'applicant_info' applicant.applicant_id %}">{{ applicant.applicant_name }}</a></li>
+    {% endfor %}
+  {% endblock %}

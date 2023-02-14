@@ -1,0 +1,42 @@
+def job_desc(request, job_id):
+    user_id = request.session.get('user_id')
+
+    cursor = connection.cursor()
+    sql = "SELECT JOB_ID, JOB_TITLE, DESCRIPTION, SALARY, REQUIREMENTS, COMPANY_ID, TYPE_ID FROM JOB WHERE JOB_ID = %s"
+    cursor.execute(sql, [job_id])
+    result = cursor.fetchall()
+    cursor.close()
+    r = result[0]
+
+    cursor = connection.cursor()
+    sql = "SELECT COMPANY_NAME, MANAGER_ID, C.AREA_ID, (SELECT AREA_NAME FROM AREAS A WHERE A.AREA_ID = C.AREA_ID) FROM COMPANY C WHERE COMPANY_ID = %s"
+    cursor.execute(sql, [r[5]])
+    result = cursor.fetchall()
+    cursor.close()
+    company_name = result[0][0]
+    manager_id = result[0][1]
+    area_id = result[0][2]
+    area_name = result[0][3]
+
+    cursor = connection.cursor()
+    sql = "SELECT (SELECT DIST_NAME FROM DISTRICTS D WHERE D.DIST_ID = A.DIST_ID) FROM AREAS A WHERE A.AREA_ID = %s"
+    cursor.execute(sql, [area_id])
+    result = cursor.fetchall()
+    cursor.close()
+    dist_name = result[0][0]
+
+    context = {
+        "user_id": user_id,
+        "company_name": company_name,
+        "area_name": area_name,
+        "dist_name": dist_name,
+        "company_id": r[6],
+        "job_id": r[0],
+        "manager_id": manager_id,
+        "job_title": r[1],
+        "salary": r[3],
+        "requirements": r[4] if r[4] else "NO SPECIFIC REQUIREMENT",
+        "description": r[2] if r[2] else "Not provided",
+        "type_id": r[5]
+    }
+    return render(request, 'job_desc.html', context )

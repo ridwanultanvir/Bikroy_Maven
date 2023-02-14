@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Sign up</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <style media="screen">
+      #req{
+        color: red;
+      }
+      div.card{
+        box-shadow: 0 1px 1px 2px rgba(0, 0, 0, 0.2), 0 2px 3px 0 rgba(0, 0, 0, 0.19);
+      }
+    </style>
+  </head>
+  <body style="background-color: #f1f1f1;">
+    <a href="{% url 'profile' %}" style="margin-left: 7px; font-size: 20px;">Back to profile</a>
+    <h1 align="center" style="margin-top: 10px;">Edit Your Profile</h1><br>
+    <div class="container col-md-7 card" style="background-color: #f9f9f9; margin-top: -10px; font-size: 20px;">
+      <form class="" action="{% url 'edit_profile_action' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          {% for p in person %}
+            <label for="f_name">First Name</label><span id="req"> *</span>
+            <input id="f_name" class="form-control" type="text" name="f_name" !placeholder="First Name" value="{{ p.f_name }}" required><br>
+            <label for="l_name">Last Name</label><span id="req"> *</span>
+            <input id="l_name" class="form-control" type="text" name="l_name" !placeholder="Last Name" value="{{ p.l_name }}" required><br>
+            <label for="phone">Phone no.</label><span id="req"> *</span>
+            <input id="phone" class="form-control" type="text" name="phone" !placeholder="Phone No." value="{{ p.phone_no }}" required><br>
+            <!-- <label for="pass">New Password</label><span id="req"> *</span>
+            <input id="pass" class="form-control" type="password" name="password" !placeholder="Password" required><br> -->
+            <label for="street">Street no.</label>
+            <input id="street" class="form-control" type="text" name="street" value="{{ p.street }}" !placeholder="Street no."><br>
+            <label for="zip">Zip Code</label>
+            <input id="zip" class="form-control" type="text" name="zip" value="{{ p.zip_code }}" !placeholder="Area zip code"><br>
+            <label for="house">House No.</label>
+            <input id="house" class="form-control" type="text" name="house" value="{{ p.house }}" !placeholder="House No."><br>
+          {% endfor %}
+          <!-- <label for="area">Area</label><span id="req"> *</span>
+          <input id="area" class="form-control" type="text" name="area" value="{{ area_name }}" !placeholder="Area Name" required><br>
+          <label for="divname">Select Division<span id="req"> *</span> : </label>
+          <select class="form-control" name="divid" id="divname" onchange="distsChange(value);">
+            {% for div in divs %}
+              {% if div.div_id == div_id%}
+                <option value="{{ div.div_id }}" selected>{{ div.div_name }}</option>
+              {% else %}
+                <option value="{{ div.div_id }}" >{{ div.div_name }}</option>
+              {% endif %}
+            {% endfor %}
+          </select><br>
+          <span id="distname"></span> -->
+        </div>
+        <button class="btn-warning btn-lg btn-block" type="submit" name="signup">Save changes</button><hr>
+        <!-- <input type="submit" value="Sign up"> -->
+      </form>
+    </div>
+    <script type="text/javascript">
+      function distsChange0() {
+        var t = '<option value="1" selected>-------------</option>';
+        document.getElementById("distname").innerHTML = t;
+      }
+      function distsChange(div_id) {
+        console.log(div_id);
+        var t = '<label for="distname">Select District<span id="req"> *</span> : </label>'
+        + '<select class="form-control" name="distid" id="distname">';
+        {% for dist in dists %}
+          if({{ dist.div_id }} == div_id)
+            t += '<option value="{{ dist.dist_id }}">{{ dist.dist_name }}</option>';
+        {% endfor %}
+        t += '</select><br>';
+        document.getElementById("distname").innerHTML = t;
+      }
+    </script>
+  </body>
+</html>

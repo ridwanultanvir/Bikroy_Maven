@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>Login</title>
+    <style media="screen">
+      div.card{
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        /* padding-top: 100px; */
+      }
+      * {box-sizing: border-box;}
+
+      .input-container {
+        display: -ms-flexbox; /* IE10 */
+        display: flex;
+        width: 100%;
+        margin-bottom: 15px;
+      }
+
+      .icon {
+        padding: 15px;
+        background: dodgerblue;
+        color: white;
+        min-width: 50px;
+        text-align: center;
+      }
+
+      .input-field {
+        width: 100%;
+        padding: 3px 0px 3px 10px;
+        outline: none;
+      }
+
+      .input-field:focus {
+        border: 2.2px solid dodgerblue;
+      }
+
+    </style>
+  </head>
+  <body style="background-color: #eaeaea;">
+    <!-- <div style="float: right;"><a href="{% url 'index' %}" style="margin-right: 5px; margin-top: 60px; font-size: 20px;">Back to home</a></div> -->
+    <a href="{% url 'index' %}" style="margin-left: 5px; font-size: 20px;">Back to home</a>
+    <div class="container col-md-5 card" style="background-color: #f6f6f6; margin-top: 110px; font-size: 20px;">
+      <h2 align="center" style="padding-top: 20px; padding-bottom: 5px;">Login to your account</h2>
+      <form class="" action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+          <!-- <label for="user">User_name</label><br>
+          <input id="user" type="text" class="form-control" name="username" placeholder="First Name" required><br>
+          <label for="pass">Password</label><br>
+          <input id="pass" type="password" class="form-control" name="password" placeholder="Password" required> -->
+          <br><div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input class="input-field" type="text" placeholder="User Name" name="username" required>
+          </div>
+          <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="password" placeholder="Password" name="password" required>
+          </div>
+          {% if cred == -1 %}
+            <span class="glyphicon glyphicon-exclamation-sign"></span>
+            <span style="color: red; font-size: 17px; font-family: 'Consolas'; padding-left: 5px;">Invalid credentials</span>
+          {% endif %}
+        </div>
+        <button class="btn-info btn-lg btn-block" type="submit" name="login">Login</button><hr>
+      </form>
+      <a style="text-align: center; margin-bottom: 20px;" href="{% url 'signup' %}">Create an account instead</a>
+    </div>
+  </body>
+</html>

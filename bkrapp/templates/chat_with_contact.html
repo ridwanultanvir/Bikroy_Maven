@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Chat</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <style media="screen">
+  *::selection {
+    background-color: red;
+  }
+
+  .cap {
+    font-size: 40px;
+    background-color: black;
+    width: 100%;
+    /*text-align: center;*/
+    padding-left: 20px;
+    color: #ddd;
+    font-family: "Times New Roman", Helvetica, sans-serif;
+    background-image: linear-gradient(blue, #00BFFF);
+  }
+
+  .carousel-inner .item {
+    padding: 150px 20px;
+    background-color: lightblue;
+  }
+
+  /* .item {
+    padding: 150px 20px;
+    background-color: lightblue;
+  } */
+
+  .description {
+    /* margin-left: 55%; */
+  }
+
+  .description ul {
+    list-style-type: none;
+    padding: 0;
+    color: white;
+  }
+
+  .description ul li {
+    padding: 8px 16px;
+    border-bottom: 1px solid #ddd;
+    font-size: 18px;
+  }
+
+  .description ul li strong {
+    font-family: cursive;
+  }
+
+  .menuSidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    -z-index: 1;
+    top: 0;
+    right: 0;
+    background-color: #111;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 40px;
+  }
+
+  .menuSidenav a {
+    padding: 10px 8px 8px 20px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+  }
+
+  .menuSidenav a:hover {
+    color: #f1f1f1;
+  }
+
+  .menuSidenav .closebtn {
+    position: absolute;
+    top: 5px;
+    right: 2px;
+    font-size: 36px;
+    margin-left: 50px;
+  }
+
+  </style>
+
+</head>
+<body style="background-color: rgb(80, 80, 80);">
+
+<span style="font-size: 30px; cursor: pointer; margin-left: 96.75%;" onclick="openNav()">&#9776;</span>
+
+<div class="container col-md-8" style="background-color: #111; width: 70%; height: 100%; margin-top: -10px;">
+  <div class="description" style="font-family: cursive;">
+    <ul>
+      <li><strong style="font-size: 25px; margin-left: -14px;">{{ sender_name }}</strong> </li>
+    </ul>
+  </div>
+  <div class="container" style="color: white;">
+    {% for message in messages %}
+      <!-- {{ message.message_content }} <br> -->
+      {% if message.sender_id == user_id %}
+        <span style="float: right;">{{ message.message_content }}</span> <br><br>
+      {% else %}
+        {{ message.message_content }}<br><br>
+      {% endif %}
+    {% endfor %}
+  </div>
+  <br>
+  <form class="" action="{% url 'contact_chat_action' product_id contact_id %}" method="post">
+    {% csrf_token %}
+    <div class="has-float-label">
+      <textarea class="form-control" name="chat_box" rows="2" cols="10" placeholder="Type your message..." required></textarea>
+    </div><br>
+    <button class="btn-primary" style="float:right;" type="submit" name="Send"><i class="fa fa-chevron-circle-right"></i> Send </button><br>
+  </form><br>
+</div>
+
+<div id="menuSidenavID" class="menuSidenav">
+  <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a><br>
+  <a href="{% url 'index' %}">Home</a>
+  <a href="{% url 'categories' %}">Categories</a>
+  <a href="{% url 'ad' %}">Add</a>
+  <a href="{% url 'job_types' %}">Jobs</a>
+  {% if user_id == 0%}
+    <a href="{% url 'login' %}">Login</a>
+  {% else %}
+    <a href="{% url 'user_products' %}">My products</a>
+    <a href="{% url 'logout' %}">Sign out</a>
+  {% endif %}
+</div>
+
+<script type="text/javascript">
+  var px = "170px";
+  function openNav() {
+    document.getElementById("menuSidenavID").style.width = px;
+  }
+
+  function closeNav() {
+    document.getElementById("menuSidenavID").style.width = "0";
+  }
+
+</script>
+
+</body>
+</html>
